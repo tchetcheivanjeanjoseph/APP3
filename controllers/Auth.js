@@ -1,22 +1,25 @@
 const UserModel = require('../models/Users');
 const fs = require('fs');
 const bcrypt = require('bcryptjs');
+const jwt = require(('jsonwebtoken'));
+const File = require('../middlewares/File');
 
 class Auth {
 
 
-    async Register(data,file) {
+    async Register(data) {
         // upload file
-        const file = file;
+        const image = await new File().UploadFile(data.file);
+        /*const file = file;
         let oldPath = file.path;
         let newpath = element.path + '.png';
         let newname = element.filename + '.png';   
 
         fs.rename(oldPath,newpath, ()=> {
             console.log("importation succefull ");
-        });
+        });*/
 
-        data.avatar = newname;
+       /* data.avatar = newname;
 
         // crypt password
         const password_not_crypt = data.password;
@@ -28,14 +31,19 @@ class Auth {
         const userSaved = await user.save();
 
         if (userSaved) {
-            
-            return userSaved;
+            const token = jwt.sign({ _id: UserExist._id}, process.env.TOKEN_SECRET, { expiresIn: 85000});
+            let response = {
+                data : userSaved,
+                token : token
+            };
+
+            return response;
 
         } else {
 
             return false;
             
-        }
+        }*/
         
     }
 
@@ -50,7 +58,14 @@ class Auth {
 
             if (passwordVerify) {
 
-                return matVerify;
+                const token = jwt.sign({ _id: UserExist._id}, process.env.TOKEN_SECRET, { expiresIn: 85000});
+
+                let response = {
+                    data : matVerify,
+                    token : token
+                };
+
+            return response;
                 
             } else {
 

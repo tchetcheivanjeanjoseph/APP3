@@ -5,9 +5,9 @@ const app = express()
 app.use(bodyParser.urlencoded({extended:false}))
 
 const accueil = require('./routes/accueil')
-const inscription = require('./routes/inscription');
+const user = require('./routes/user');
 
-app.use('/auth',inscription);
+app.use('/auth',user);
 
 app.listen(3000, ()=>{
     console.log('Connecté');

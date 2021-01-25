@@ -5,10 +5,11 @@ const options  = {
     type : String
 };
 
-const UserSchema = new schema ({
+const UserSchema = new Schema ({
     last_name: options,
     first_name: options,
     promo : options,
+    filliere : options,
     avatar : options,
     email : options,
     num : options,
