@@ -5,12 +5,14 @@ const options  = {
     type : String
 };
 
-const OutSchema = new schema ({
+const OutSchema = new Schema ({
     author: options,
     bed_number : options,
     date_started : options,
     date_finish: options,
     motivation: options,
+    number_tutor: options,
+    status: options,
     created_at: options,
     updated_at : options
 });

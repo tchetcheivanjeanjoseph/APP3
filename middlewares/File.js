@@ -5,9 +5,9 @@ class File {
     async UploadFile(file) {
 
         const data = file;
-        let oldPath = data.path;
-        let newpath = data.path + '.png';
-        let newname = data.filename + '.png';   
+        let oldPath = data[0].path;
+        let newpath = data[0].path + '.png';
+        let newname = data[0].filename + '.png';   
 
         fs.rename(oldPath,newpath, ()=> {
             console.log("importation succefull ");
@@ -15,7 +15,6 @@ class File {
 
         let response = [oldPath,newpath,newname];
 
-        console.log(response);
         return response;
 
     }

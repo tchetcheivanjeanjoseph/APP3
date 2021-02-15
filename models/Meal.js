@@ -5,15 +5,13 @@ const options  = {
     type : String
 };
 
-const MedicalSchema = new Schema ({
+const MealSchema = new Schema ({
     author: options,
-    weight : options,
-    height: options,
-
-    description: options,
-
+    
+    somme: options,
+    time_created: options,
     created_at: options,
     updated_at : options
 });
 
-module.exports = mongoose.model('Medical', MedicalSchema);
+module.exports = mongoose.model('Meal', MealSchema);

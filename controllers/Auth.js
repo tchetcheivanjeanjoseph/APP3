@@ -7,9 +7,9 @@ const File = require('../middlewares/File');
 class Auth {
 
 
-    async Register(data) {
+    async Register(data,file) {
         // upload file
-        const image = await new File().UploadFile(data.file);
+        const image = await new File().UploadFile(file);
         /*const file = file;
         let oldPath = file.path;
         let newpath = element.path + '.png';
@@ -19,7 +19,7 @@ class Auth {
             console.log("importation succefull ");
         });*/
 
-       /* data.avatar = newname;
+        data.avatar = image[2];
 
         // crypt password
         const password_not_crypt = data.password;
@@ -27,11 +27,14 @@ class Auth {
 
         data.password = password_crypt;
 
+        console.log(data);
         const user = new UserModel(data);
         const userSaved = await user.save();
 
+        console.log(userSaved);
+
         if (userSaved) {
-            const token = jwt.sign({ _id: UserExist._id}, process.env.TOKEN_SECRET, { expiresIn: 85000});
+            const token = jwt.sign({ _id: userSaved._id}, process.env.TOKEN_SECRET, { expiresIn: 85000});
             let response = {
                 data : userSaved,
                 token : token
@@ -43,22 +46,21 @@ class Auth {
 
             return false;
             
-        }*/
+        }
         
     }
 
 
-    async Login(data) {
-
+    async Login(data) {        
         const matVerify = await UserModel.find({ matricule : data.matricule });
-
+        //console.log(matVerify);
         if (matVerify.length > 0) {
 
             const passwordVerify = await bcrypt.compare(data.password , matVerify[0].password);
 
             if (passwordVerify) {
 
-                const token = jwt.sign({ _id: UserExist._id}, process.env.TOKEN_SECRET, { expiresIn: 85000});
+                const token = jwt.sign({ _id: matVerify._id }, process.env.TOKEN_SECRET, { expiresIn: 85000});
 
                 let response = {
                     data : matVerify,
@@ -76,6 +78,17 @@ class Auth {
 
             return  0;
         }
+    }
+
+
+    async FindUserByID(id) {
+        const user = await UserModel.findOne({ _id: id });
+        if (user !== null) {
+            return user;
+        } else {
+            return 0;
+        }
+        
     }
 }
 

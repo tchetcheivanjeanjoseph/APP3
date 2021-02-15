@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">    
+    <style>
+        .row {
+            margin-bottom: 2rem;
+          }
+          
+          .left {
+            margin-left: 0.5rem;
+          }
+          
+          .left-1 {
+            margin-left: 2rem;
+          }          
+    </style>
+</head>
+<body>
+
+    <div class="container-fluid">
+
+        <div class="banner">
+          <div class="jumbotron jumbotron-fluid">
+            <div class="container" align="center">
+              <h1 class="display-4">Formulaire d'inscription</h1>
+              <p class="lead">Rejoingez les applications ESATIC en remplissant cet formulaire ci-dessous.</p>
+            </div>
+          </div>
+        </div>
+
+         <div class="container">
+          <%if (success === true) { %>
+            <div class="alert alert-success">
+              Votre inscription s'est déroulée sans problème ! Vous avez maintenant accès à ESATIC-APP.
+            </div>
+          <% } else if (success === false){ %>
+            <div class="alert alert-danger">
+              Veuillez réessayer plutard !
+            </div>
+          <% } %>
+         </div>
+    
+        <div class="container">
+          <form action="/auth/register" method="POST" enctype="multipart/form-data">
+            <div class="row">
+              <div class="col">
+                <input type="text" name="last_name" class="form-control" placeholder="Prénoms">
+              </div>
+              <div class="col">
+                <input type="text" name="first_name"  class="form-control" placeholder="Nom">
+              </div>
+            </div>
+    
+            <div class="row">
+              <div class="col">
+                <select name="filliere"  id="inputState" class="form-control" placeholder="fff">
+                  <option value="">Choisir filière...</option>
+                  <option value="srit">SRIT</option>
+                  <option value="twin">TWIN</option>
+                </select>
+              </div>
+              <div class="col">
+                <select name="promo" id="inputState" class="form-control">
+                  <option value="">Choisir promotion...</option>
+                  <option value="it07">it07</option>
+                  <option value="it04">it04</option>
+                </select>
+              </div>
+            </div>
+    
+            <div class="row">
+              <div class="col">
+                <input type="file" name="avatar" class="form-control" placeholder="Photo">
+              </div>
+              <div class="col">
+                <input type="email" name="email"  class="form-control" placeholder="Adresse e-mail">
+              </div>
+            </div>
+    
+            <div class="row">
+              <div class="col">
+                <input type="number" name="num"  class="form-control" placeholder="Numéro de téléphone">
+              </div>
+              <div class="col">
+                <input type="password" name="password" class="form-control" placeholder="Mot de passe">
+              </div>
+            </div>
+    
+            <div class="row">
+              <div class="col">
+                <input type="text" name="matricule"  class="form-control" placeholder="Matricule Esatic">
+              </div>
+              <div class="col">
+                <input class="form-check-input left" name="in_city"  type="checkbox" id="gridCheck">
+                <label class="form-check-label left-1" for="gridCheck">
+                  Êtes-vous en cité ?
+                </label>
+              </div>
+            </div>
+    
+            <div class="row">
+              <div class="col" id="chmb" style="display: none;">
+                <input type="number" name="chambre"  class="form-control" placeholder="Numéro de Chambre">
+              </div>
+              <br><br><br>
+            <button class="btn btn-primary btn-block" type="submit" >Valider</button>
+          </form>
+        </div>
+    </div>
+    
+    <br><br><br>
+    
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script>
+        const checkPoint = document.getElementById('gridCheck');
+        const inputPoint = document.getElementById('chmb');
+
+        checkPoint.addEventListener('change', () => {
+            console.log(checkPoint.checked);
+            if (checkPoint.checked) {
+                inputPoint.style.display = 'block';
+            } else {
+                inputPoint.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">    
+
+<!-- nav bar here -->
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6">
+            <video id="preview"></video>
+        </div>
+        <div class="col-md-6">
+            <h1>INFORMATIONS DU CODE QR</h1>
+            <p id="info">
+
+            </p>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.1/howler.min.js" integrity="sha512-L6Z/YtIPQ7eU3BProP34WGU5yIRk7tNHk7vaC2dB1Vy1atz6wl9mCkTPPZ2Rn1qPr+vY2mZ9odZLdGYuaBk7dQ==" crossorigin="anonymous"></script>
+<script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js" rel="nofollow"></script>
+<script type="text/javascript">
+    var scanner = new Instascan.Scanner({ video: document.getElementById('preview'), scanPeriod: 5, mirror: false });
+    var sound = new Howl({
+        src: ['../music/SWSH_Whoosh 3 (ID 1795)_LS.wav']
+      });
+    scanner.addListener('scan', function(content){
+        $.post(
+            "http://localhost:3000/compte/debiter",
+            JSON.parse(content),
+            function(data) {
+                if (data === 'credit null') {
+                    var sound = new Howl({
+                        src: ['../music/MUSCPerc_Tom aigu 1 (ID 2329)_LS.wav']
+                      });
+                      sound.play();
+                      document.getElementById('info').innerHTML = "Il ne possède pas de crédit !";
+
+                } else if (data === 'erreur backend') {
+                    var sound = new Howl({
+                        src: ['../music/MUSCPerc_Tom aigu 1 (ID 2329)_LS.wav']
+                      });
+                      sound.play();
+                      document.getElementById('info').innerHTML = "Une erreur s'est produite. Veuillez réessayez plus tard !";
+
+                } else if (data === 'erreur time') {
+                    var sound = new Howl({
+                        src: ['../music/MUSCPerc_Tom aigu 1 (ID 2329)_LS.wav']
+                      });
+                      sound.play();
+                      document.getElementById('info').innerHTML = "L'heure du repas n'est pas encore arrivée !";
+
+                } else {
+                    var sound = new Howl({
+                        src: ['../music/SWSH_Whoosh 3 (ID 1795)_LS.wav']
+                      });
+                      sound.play();
+                      document.getElementById('info').innerHTML = "Bonne appétit !";
+                }
+            }
+            );
+
+        //alert(content);
+        console.log(content)
+
+        
+
+
+
+        //window.location.href=content;
+    });
+    Instascan.Camera.getCameras().then(function (cameras){
+        console.log(cameras);
+        if(cameras.length>0){
+            scanner.start(cameras[0]);
+            
+            /*$('[name="options"]').on('change',function(){
+                if($(this).val()==1){
+                    if(cameras[0]!=""){
+                        scanner.start(cameras[0]);
+                    }else{
+                        alert('No Front camera found!');
+                    }
+                }else if($(this).val()==2){
+                    if(cameras[1]!=""){
+                        scanner.start(cameras[1]);
+                    }else{
+                        alert('No Back camera found!');
+                    }
+                }
+            });*/
+        }else{
+            console.error('No cameras found.');
+            alert('No cameras found.');
+        }
+    }).catch(function(e){
+        console.error(e);
+        alert(e);
+    });
+</script>

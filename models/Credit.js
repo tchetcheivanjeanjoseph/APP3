@@ -5,7 +5,7 @@ const options  = {
     type : String
 };
 
-const CreditSchema = new schema ({
+const CreditSchema = new Schema ({
     author: options,
     choice : options,
     paypal: options,

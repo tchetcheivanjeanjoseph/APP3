@@ -1,5 +1,5 @@
 var medicalModel = require('../models/Medical');
-
+var userModel = require('../models/Users');
 
 class Medical {
 
@@ -33,6 +33,12 @@ class Medical {
             return 0;
             
         }
+    }
+
+
+    async search(matricule) {
+        const user = await userModel.find({ matricule: matricule });
+        return user;
     }
 }
 
